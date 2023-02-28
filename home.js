@@ -1,11 +1,12 @@
 const express = require("express"); 
-const app = express(); 
-const port = 3000;
+const app = express();
 
 app.use(express.json());
 
 app.use(require("./server/routes/personajesRoutes"));
 
+const port = 3000;
+
 app.listen(port, () => {
-    console.log(`Servidor en puerto ${port}`)
+    console.log(`Servidor en http://localhost:${port}`)
 });
