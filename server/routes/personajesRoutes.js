@@ -1,10 +1,13 @@
-const express = require("express");
-const router = express.Router();
+import traerPersonajes from '../data/personajes.json' assert {type:'json'};
+import fs from 'fs';
+import express from 'express';
 
-const path = require("path");
-const fs = require("fs");
+function pathFunction (listaPersonaje) {
+    fs.writeFileSync('../CRUD/server/data/personajes.json', // Lugar donde se guarda el archivo
+    JSON.stringify(listaPersonaje, null, " ")) // Convierte el objeto javascript en json
+};
 
-const traerPersonajes = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../data/personajes.json"))); 
+export const router = express.Router();
 
 router.get("/", (req, res) => {
     res.send(traerPersonajes)
@@ -23,9 +26,8 @@ router.post("/create", (req, res) => {
         id: id + 1,
         ...req.body
     };
-    traerPersonajes.push(nuevoPersonaje); 
-    fs.writeFileSync(path.resolve(__dirname, "../data/personajes.json"), // Guarda el objeto en el archivo
-    JSON.stringify(traerPersonajes, null, " ")); // Convierte el objeto javascript en objeto json (? 
+    traerPersonajes.push(nuevoPersonaje);
+    pathFunction(traerPersonajes);
 
     res.send("Personaje guardado");
 });
@@ -41,8 +43,7 @@ router.put("/:id/edit", (req, res) => {
         }
         return personaje;
     });
-    fs.writeFileSync(path.resolve(__dirname, "../data/personajes.json"), 
-    JSON.stringify(nuevaLista, null, " ")); 
+    pathFunction(nuevaLista);
 
     res.send("Personaje editado"); 
 });
@@ -51,10 +52,8 @@ router.delete("/:id/delete", (req, res) => {
     const id = req.params.id;
     const nuevaLista = traerPersonajes.filter(personaje => personaje.id != id);
     nuevaLista.forEach((personaje, i) => personaje.id = i + 1);
-    fs.writeFileSync(path.resolve(__dirname, "../data/personajes.json"), 
-    JSON.stringify(nuevaLista, null, " "));
+
+    pathFunction(nuevaLista);
 
     res.send("Personaje eliminado")
 });
-
-module.exports = router;
