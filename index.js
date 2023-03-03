@@ -1,9 +1,11 @@
-const express = require("express"); 
+import {router} from './server/routes/personajesRoutes.js';
+import express from 'express';
+
 const app = express();
 
 app.use(express.json());
 
-app.use(require("./server/routes/personajesRoutes"));
+app.use(router);
 
 const port = 3000;
 
