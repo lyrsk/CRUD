@@ -5,7 +5,7 @@ import traerPersonajes from '../data/personajes.json' assert {type:'json'};
 export const router = express.Router();
 
 function pathFunction (listaPersonaje) {
-    fs.writeFileSync('../CRUD/server/data/personajes.json', // Lugar donde se guarda el archivo
+    fs.writeFileSync('../CRUD/src/data/personajes.json', // Lugar donde se guarda el archivo
     JSON.stringify(listaPersonaje, null, " ")) // Convierte el objeto javascript en json
 };
 
